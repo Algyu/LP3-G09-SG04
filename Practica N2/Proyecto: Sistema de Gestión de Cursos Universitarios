@@ -1,4 +1,6 @@
-public abstract class Persona {
+import java.util.ArrayList;
+
+abstract class Persona {
     protected String nombre;
     protected String dni;
 
@@ -7,13 +9,10 @@ public abstract class Persona {
         this.dni = dni;
     }
 
-    public String getNombre() { return nombre; }
-    public String getDni() { return dni; }
-
     public abstract void mostrarInfo();
 }
 
-public class Estudiante extends Persona {
+class Estudiante extends Persona {
     private String carrera;
 
     public Estudiante(String nombre, String dni, String carrera) {
@@ -21,15 +20,13 @@ public class Estudiante extends Persona {
         this.carrera = carrera;
     }
 
-    public String getCarrera() { return carrera; }
-
     @Override
     public void mostrarInfo() {
         System.out.println("Estudiante: " + nombre + " - Carrera: " + carrera);
     }
 }
 
-public class Profesor extends Persona {
+class Profesor extends Persona {
     private String especialidad;
 
     public Profesor(String nombre, String dni, String especialidad) {
@@ -37,23 +34,18 @@ public class Profesor extends Persona {
         this.especialidad = especialidad;
     }
 
-    public String getEspecialidad() { return especialidad; }
-
     @Override
     public void mostrarInfo() {
         System.out.println("Profesor: " + nombre + " - Especialidad: " + especialidad);
     }
 }
 
-import java.util.ArrayList;
-
-public class Curso {
+class Curso {
     private String nombre;
     private String categoria;
-    private Profesor profesor;
-    private ArrayList<Estudiante> estudiantes;
-
-    public static final int MAX_ESTUDIANTES = 30;
+    private Profesor profesor; // agregación
+    private ArrayList<Estudiante> estudiantes; // composición
+    public static final int MAX_ESTUDIANTES = 30; // constante
 
     public Curso(String nombre, String categoria, Profesor profesor) {
         this.nombre = nombre;
@@ -62,17 +54,12 @@ public class Curso {
         this.estudiantes = new ArrayList<>();
     }
 
-    public String getNombre() { return nombre; }
-    public String getCategoria() { return categoria; }
-    public Profesor getProfesor() { return profesor; }
-
     public boolean inscribirEstudiante(Estudiante e) {
         if (estudiantes.size() < MAX_ESTUDIANTES) {
             estudiantes.add(e);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     public int getCantidadEstudiantes() {
@@ -81,14 +68,12 @@ public class Curso {
 
     public void mostrarCurso() {
         System.out.println("Curso: " + nombre + " (" + categoria + ")");
-        System.out.println("Profesor: " + profesor.getNombre());
+        System.out.println("Profesor: " + profesor.nombre);
         System.out.println("Estudiantes inscritos: " + estudiantes.size());
     }
 }
 
-import java.util.ArrayList;
-
-public class SistemaGestion {
+class SistemaGestion {
     private ArrayList<Curso> cursos;
 
     public SistemaGestion() {
@@ -110,7 +95,7 @@ public class SistemaGestion {
         System.out.println("Cursos disponibles:");
         for (Curso c : cursos) {
             if (c.getCantidadEstudiantes() < Curso.MAX_ESTUDIANTES) {
-                System.out.println("- " + c.getNombre());
+                System.out.println("- " + c.getCantidadEstudiantes() + "/" + Curso.MAX_ESTUDIANTES + " en " + c.getClass().getSimpleName());
             }
         }
     }
@@ -118,14 +103,14 @@ public class SistemaGestion {
 
 public class Main {
     public static void main(String[] args) {
-        Profesor p1 = new Profesor("Mario Santillana", "12345678", "Programación");
-        Profesor p2 = new Profesor("Ana Torres", "87654321", "Matemáticas");
+        Profesor p1 = new Profesor("Sergio Delgado", "12345678", "Programacion");
+        Profesor p2 = new Profesor("Ana Flores", "87654321", "Matematicas");
 
-        Curso curso1 = new Curso("Programación III", "Programación", p1);
-        Curso curso2 = new Curso("Álgebra Lineal", "Matemáticas", p2);
+        Curso curso1 = new Curso("Programacion III", "Programacion", p1);
+        Curso curso2 = new Curso("Algebra Lineal", "Matematicas", p2);
 
-        Estudiante e1 = new Estudiante("Carlos Pérez", "11112222", "Ingeniería de Sistemas");
-        Estudiante e2 = new Estudiante("María López", "33334444", "Ingeniería Industrial");
+        Estudiante e1 = new Estudiante("Carlos Perez", "11112222", "Ingenieria de Minas");
+        Estudiante e2 = new Estudiante("Maria López", "33334444", "Ingenieria Geologica");
 
         SistemaGestion sistema = new SistemaGestion();
         sistema.agregarCurso(curso1);
