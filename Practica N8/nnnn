@@ -1,1 +1,49 @@
+package Ejercicio2;
 
+import java.util.Scanner;
+
+public class main {
+    public static void main(String[] args) {
+        GestorDispositivos gestor = new GestorDispositivos();
+
+        gestor.agregar(new Dispositivo(1, "Sensor A1", "Temperatura", "Activo", 145.5));
+        gestor.agregar(new Dispositivo(2, "Cámara Z2", "Seguridad", "Inactivo", 480.0));
+        gestor.agregar(new Dispositivo(3, "Módulo X3", "Comunicación", "Activo", 210.7));
+        gestor.agregar(new Dispositivo(4, "Control Y5", "Automatización", "Activo", 300.0));
+        gestor.agregar(new Dispositivo(5, "Router N7", "Red", "Inactivo", 260.3));
+
+        System.out.println("Listado general de dispositivos:");
+        gestor.mostrarTodos();
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("\n--- CONSULTA PERSONALIZADA ---");
+
+        System.out.print("Qué campo deseas mostrar? (nombre, tipo, estado, precio, todos): ");
+        String campoMostrar = sc.nextLine();
+
+        System.out.print("Deseas aplicar una condición s o n?: ");
+        String aplicarCond = sc.nextLine();
+
+        String campoCondicion = null;
+        String valorCondicion = null;
+        if (aplicarCond.equalsIgnoreCase("s")) {
+            System.out.print("Campo de condición (nombre, tipo, estado, precio): ");
+            campoCondicion = sc.nextLine();
+
+            System.out.print("Valor que debe cumplir: ");
+            valorCondicion = sc.nextLine();
+        }
+
+        System.out.print("Campo para ordenar (id, nombre, tipo, estado, precio): ");
+        String campoOrden = sc.nextLine();
+
+        System.out.print("Orden ascendente?: ");
+        boolean ascendente = sc.nextLine().equalsIgnoreCase("s");
+
+        System.out.print("Limite de registros a mostrar? (0 = sin límite): ");
+        int limite = sc.nextInt();
+
+        gestor.consultar(campoMostrar, campoCondicion, valorCondicion, campoOrden, ascendente, limite);
+    }
+}
